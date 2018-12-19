@@ -4,4 +4,3 @@ python:
   - "2.7.5"
 
 script: build/scripts/run_pylint.sh
-
