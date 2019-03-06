@@ -224,7 +224,7 @@ my_full_path=`readlink -f $0`
 my_parent_dir=`dirname $my_full_path`
 
 #git_branches="$1"
-WORKSPACE=$my_parent_dir
+WORKSPACE=$my_parent_dir/../../..
 export DECISIONENGINE_SRC=$WORKSPACE/decisionengine
 #export DECISIONENGINE_SRC=$WORKSPACE
 
