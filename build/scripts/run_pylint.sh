@@ -4,7 +4,8 @@ get_current_git_branch() {
     cd $DECISIONENGINE_SRC
     gb=`git branch | grep "\*" | cut -d ' ' -f2`
     cd $WORKSPACE
-    echo $gb
+    #echo $gb
+    echo "master"
 }
 
 process_branch() {
