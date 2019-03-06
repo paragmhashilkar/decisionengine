@@ -202,7 +202,7 @@ HTML_TD_FAILED="border: 0px solid black;border-collapse: collapse;background-col
 # MAIN
 ###############################################################################
 
-usage {
+usage() {
     echo "Usage: run_pylint.sh <OPTIONS>"
     echo "OPTIONS:"
     echo "  -tags <git tags>           : List of comma separated tags/branches"
@@ -214,7 +214,7 @@ while [ $# -gt 0 ]
 do case "$1" in
     -tags) git_branches="$2";;
     -email) email_to="$2";;
-    *)  (warn "Unknown option $1"; usage) 1>&2; exit 1
+    *)  (warn "Unknown option $1"; usage) 1>&2; exit 1;;
 esac
 shift
 shift
