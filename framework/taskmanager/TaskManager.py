@@ -47,6 +47,13 @@ class Worker(object):
         self.run_counter = 0
         self.data_updated = threading.Event()
         self.stop_running = threading.Event()
+        self.logger = de_logger.get_logger()
+
+
+    #def __del__(self):
+    #    self.logger.info('Deleting worker %s', self.name)
+    #    del self.worker
+
 
 class Channel(object):
     """
@@ -60,6 +67,7 @@ class Channel(object):
         :arg channel_dict: channel configuration
         """
 
+        self.logger = de_logger.get_logger()
         self.sources = {}
         self.transforms = {}
         self.le_s = {}
@@ -75,6 +83,22 @@ class Channel(object):
         for s in channel_dict['publishers']:
             self.publishers[s] = Worker(channel_dict['publishers'][s])
         self.task_manager = channel_dict.get('task_manager', {})
+
+
+    def __del__(self):
+        """
+        Destroy each DE module explicitly to force cleanup if any
+        """
+        self.logger.info('Deleting objects for channel modules: %s, %s, %s' % (self.sources.keys(), self.transforms.keys(), self.publishers.keys()))
+        for s in self.sources:
+            self.logger.info('Deleting object for source %s of type %s' % (s, type(self.sources[s].worker)))
+            del self.sources[s].worker
+        for t in self.transforms:
+            self.logger.info('Deleting object for transform %s of type %s' % (t, type(self.transforms[t].worker)))
+            del self.transforms[t].worker
+        for p in self.publishers:
+            self.logger.info('Deleting object for publisher %s of type %s' % (p, type(self.publishers[p].worker)))
+            del self.publishers[p].worker
 
 
 # states
@@ -111,6 +135,11 @@ class TaskManager(object):
         self.lock = threading.Lock()
         self.logger = de_logger.get_logger()
         self.stop = False # stop running all loops when this is True
+
+
+    def __del__(self):
+        self.logger.info('Deleting object for taskmanager %s', self.name)
+        del self.channel
 
 
     def wait_for_all(self, events_done):

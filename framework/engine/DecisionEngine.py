@@ -36,6 +36,11 @@ class Worker(multiprocessing.Process):
     def run(self):
         self.task_manager.run()
 
+    def terminate(self):
+        if self.task_manager:
+            del self.task_manager
+        super(Worker, self).terminate()
+
 
 class RequestHandler(SimpleXMLRPCServer.SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
