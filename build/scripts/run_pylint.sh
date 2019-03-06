@@ -224,6 +224,7 @@ done
 #git_branches="$1"
 WORKSPACE=`pwd`
 export DECISIONENGINE_SRC=$WORKSPACE/decisionengine
+export DECISIONENGINE_SRC=$WORKSPACE
 
 source $DECISIONENGINE_SRC/build/scripts/utils.sh
 setup_python_venv $WORKSPACE
