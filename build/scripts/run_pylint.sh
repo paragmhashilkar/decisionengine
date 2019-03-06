@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 get_current_git_branch() {
     cd $DECISIONENGINE_SRC
