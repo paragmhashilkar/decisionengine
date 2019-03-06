@@ -202,7 +202,7 @@ HTML_TD_FAILED="border: 0px solid black;border-collapse: collapse;background-col
 # MAIN
 ###############################################################################
 
-function usage {
+usage {
     echo "Usage: run_pylint.sh <OPTIONS>"
     echo "OPTIONS:"
     echo "  -tags <git tags>           : List of comma separated tags/branches"
