@@ -220,11 +220,17 @@ shift
 shift
 done
 
+my_full_path=`readlink -f $0`
+my_parent_dir=`dirname $my_full_path`
 
 #git_branches="$1"
-WORKSPACE=`pwd`
+WORKSPACE=$my_parent_dir
 export DECISIONENGINE_SRC=$WORKSPACE/decisionengine
-export DECISIONENGINE_SRC=$WORKSPACE
+#export DECISIONENGINE_SRC=$WORKSPACE
+
+echo "=======> PWD=`pwd`"
+echo "=======> WORKSPACE=$WORKSPACE"
+echo "=======> DECISIONENGINE_SRC=$DECISIONENGINE_SRC"
 
 source $DECISIONENGINE_SRC/build/scripts/utils.sh
 setup_python_venv $WORKSPACE
