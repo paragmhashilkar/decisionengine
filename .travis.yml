@@ -1,7 +1,7 @@
 os: linux
 dist: trusty
 language: python
-script: build/scripts/run_pylint.sh
+script: build/scripts/run_pylint.sh -email parag@fnal.gov
 
 python:
   - "2.7"
