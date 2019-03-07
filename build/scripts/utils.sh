@@ -29,7 +29,9 @@ setup_python_venv() {
     fi
     # Get latest virtualenv package that works with python 2.6
     curl -o $WORKSPACE/$VIRTUALENV_TARBALL $VIRTUALENV_URL
+    cd $WORKSPACE
     tar xzf $WORKSPACE/$VIRTUALENV_TARBALL
+    cd -
     if [ ! -d $VENV ] ; then
        $VIRTUALENV_EXE --system-site-packages $VENV
     fi
