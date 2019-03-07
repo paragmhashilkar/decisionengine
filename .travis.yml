@@ -1,8 +1,22 @@
+os: linux
+dist: trusty
 language: python
+script: build/scripts/run_pylint.sh
 
 python:
   - "2.7"
 
-dist: trusty
-
-script: build/scripts/run_pylint.sh
+matrix:
+  include:
+    - env: COMPILER=g++-6 BUILD=Debug STANDARD=14
+      compiler: gcc
+      addons:
+        apt:
+          update: true
+          sources:
+            - sourceline: 'ppa:mhier/libboost-latest'
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+            - boost1.67
+            - libboost-all-dev
