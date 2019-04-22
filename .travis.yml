@@ -21,6 +21,3 @@ matrix:
           packages:
             - g++-6
             - libboost-all-dev
-
-deploy:
-  skip_cleanup: true
