@@ -193,18 +193,18 @@ TABLE_END
 # HTML inline CSS
 HTML_TABLE="border: 1px solid black;border-collapse: collapse;"
 HTML_THEAD="font-weight: bold;border: 0px solid black;background-color: #ffcc00;"
-HTML_THEAD_TH_R1="border: 0px solid black;border-collapse: collapse;font-weight: bold;background-color: #4183D1;padding: 8px;"
-HTML_THEAD_TH_R2="border: 0px solid black;border-collapse: collapse;font-weight: bold;background-color: #ffb300;padding: 8px;"
+HTML_THEAD_TH_R1="border: 1px solid black;border-collapse: collapse;font-weight: bold;background-color: #4183D1;padding: 8px;"
+HTML_THEAD_TH_R2="border: 1px solid black;border-collapse: collapse;font-weight: bold;background-color: #ffb300;padding: 8px;"
 
 HTML_TH="border: 0px solid black;border-collapse: collapse;font-weight: bold;background-color: #00ccff;padding: 8px;"
 HTML_TR="padding: 5px;text-align: center;"
 HTML_TD="border: 1px solid black;border-collapse: collapse;padding: 5px;text-align: center;"
 
 HTML_TR_PASSED="padding: 5px;text-align: center;"
-HTML_TD_PASSED="border: 0px solid black;border-collapse: collapse;background-color: #00ff00;padding: 5px;text-align: center;"
+HTML_TD_PASSED="border: 1px solid black;border-collapse: collapse;background-color: #00ff00;padding: 5px;text-align: center;"
 
 HTML_TR_FAILED="padding: 5px;text-align: center;"
-HTML_TD_FAILED="border: 0px solid black;border-collapse: collapse;background-color: #ff0000;padding: 5px;text-align: center;"
+HTML_TD_FAILED="border: 1px solid black;border-collapse: collapse;background-color: #ff0000;padding: 5px;text-align: center;"
 
 
 
