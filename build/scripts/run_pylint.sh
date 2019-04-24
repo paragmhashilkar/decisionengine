@@ -132,7 +132,7 @@ init_results_logging() {
       <th style="$HTML_THEAD_TH_R2">FILES CHECKED</th>
       <th style="$HTML_THEAD_TH_R2">FILES WITH ERRORS</th>
       <th style="$HTML_THEAD_TH_R2">TOTAL ERRORS</th>
-      <th style="$HTML_THEAD_TH_R2">TOTAL ERRORS</th>
+      <th style="$HTML_THEAD_TH_R2">PEP8 ERRORS</th>
     </tr>
   </thead>
   <tbody>
@@ -193,8 +193,8 @@ TABLE_END
 # HTML inline CSS
 HTML_TABLE="border: 1px solid black;border-collapse: collapse;"
 HTML_THEAD="font-weight: bold;border: 0px solid black;background-color: #ffcc00;"
-HTML_THEAD_TH_R1="border: 1px solid black;border-collapse: collapse;font-weight: bold;background-color: #4183D1;padding: 8px;"
-HTML_THEAD_TH_R2="border: 1px solid black;border-collapse: collapse;font-weight: bold;background-color: #ffb300;padding: 8px;"
+HTML_THEAD_TH_R1="border: 0px solid black;border-collapse: collapse;font-weight: bold;background-color: #4183D1;padding: 8px;"
+HTML_THEAD_TH_R2="border: 0px solid black;border-collapse: collapse;font-weight: bold;background-color: #ffb300;padding: 8px;"
 
 HTML_TH="border: 0px solid black;border-collapse: collapse;font-weight: bold;background-color: #00ccff;padding: 8px;"
 HTML_TR="padding: 5px;text-align: center;"
