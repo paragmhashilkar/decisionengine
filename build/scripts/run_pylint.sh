@@ -8,6 +8,23 @@ get_current_git_branch() {
     echo "master"
 }
 
+
+build_le(){
+    echo "Building Logic Engine ..."
+    le_builddir=$DECISIONENGINE_SRC/framework/logicengine/cxx/build
+    mkdir $le_builddir
+    cd $le_builddir
+    cmake --debug-output ..
+    make --debug
+    [ -e ../../RE.so ] && rm ../../RE.so
+    [ -e ../../libLogicEngine.so ] && ../../libLogicEngine.so
+    cp ErrorHandler/RE.so ../..
+    cp ErrorHandler/libLogicEngine.so ../..
+    echo "Building Logic Engine ... DONE"
+    cd -
+}
+
+
 process_branch() {
     local pylint_log=$1
     local pep8_log=$2
@@ -27,31 +44,18 @@ process_branch() {
         cd $DECISIONENGINE_SRC
         git checkout $git_branch
         checkout_rc=$?
-        #git pull
+        git pull
         cd $WORKSPACE
         if [ $checkout_rc -ne 0 ]; then
             log_nonzero_rc "git checkout" $?
             echo "GIT_CHECKOUT=\"FAILED\"" >> $results
-            # HACK
-            #return
         fi
     fi
     # Consider success if no git checkout was done
     echo "GIT_CHECKOUT=\"PASSED\"" >> $results
 
     # Build Logic Engine
-    echo "Building Logic Engine ..."
-    le_builddir=$DECISIONENGINE_SRC/framework/logicengine/cxx/build
-    mkdir $le_builddir
-    cd $le_builddir
-    cmake --debug-output ..
-    make --debug
-    [ -e ../../RE.so ] && rm ../../RE.so
-    [ -e ../../libLogicEngine.so ] && ../../libLogicEngine.so
-    cp ErrorHandler/RE.so ../..
-    cp ErrorHandler/libLogicEngine.so ../..
-    echo "Building Logic Engine ... DONE"
-
+    build_le
     cd $WORKSPACE
 
     # pylint related variables
@@ -105,13 +109,13 @@ process_branch() {
 
 
 init_results_mail () {
-    local mail_file=$1
-    echo -n > $mail_file
+    local mail_file="$1"
+    echo -n > "$mail_file"
 }
 
 init_results_logging() {
-    local mail_file=$1
-    cat >> $mail_file << TABLE_START
+    local mail_file="$1"
+    cat >> "$mail_file" << TABLE_START
 <body>
 
   <p>
@@ -120,11 +124,15 @@ init_results_logging() {
 <table style="$HTML_TABLE">
   <thead style="$HTML_THEAD">
     <tr style="$HTML_TR">
-      <th style="$HTML_THEAD_TH">GIT BRANCH</th>
-      <th style="$HTML_THEAD_TH">FILES CHECKED</th>
-      <th style="$HTML_THEAD_TH">FILES WITH ERRORS</th>
-      <th style="$HTML_THEAD_TH">TOTAL ERRORS</th>
-      <th style="$HTML_THEAD_TH">PEP8 ERRORS</th>
+      <th style="$HTML_THEAD_TH_R1" rowspan="2">GIT BRANCH</th>
+      <th style="$HTML_THEAD_TH_R1" colspan="3">PYLINT</th>
+      <th style="$HTML_THEAD_TH_R1">PEP8</th>
+    </tr>
+    <tr style="$HTML_TR">
+      <th style="$HTML_THEAD_TH_R2">FILES CHECKED</th>
+      <th style="$HTML_THEAD_TH_R2">FILES WITH ERRORS</th>
+      <th style="$HTML_THEAD_TH_R2">TOTAL ERRORS</th>
+      <th style="$HTML_THEAD_TH_R2">TOTAL ERRORS</th>
     </tr>
   </thead>
   <tbody>
@@ -185,7 +193,8 @@ TABLE_END
 # HTML inline CSS
 HTML_TABLE="border: 1px solid black;border-collapse: collapse;"
 HTML_THEAD="font-weight: bold;border: 0px solid black;background-color: #ffcc00;"
-HTML_THEAD_TH="border: 0px solid black;border-collapse: collapse;font-weight: bold;background-color: #ffb300;padding: 8px;"
+HTML_THEAD_TH_R1="border: 1px solid black;border-collapse: collapse;font-weight: bold;background-color: #4183D1;padding: 8px;"
+HTML_THEAD_TH_R2="border: 1px solid black;border-collapse: collapse;font-weight: bold;background-color: #ffb300;padding: 8px;"
 
 HTML_TH="border: 0px solid black;border-collapse: collapse;font-weight: bold;background-color: #00ccff;padding: 8px;"
 HTML_TR="padding: 5px;text-align: center;"
@@ -215,11 +224,18 @@ while [ $# -gt 0 ]
 do case "$1" in
     -tags) git_branches="$2";;
     -email) email_to="$2";;
-    *)  (warn "Unknown option $1"; usage) 1>&2; exit 1;;
+    -work-dir) work_dir="$2";;
+    *)  (warn "Unknown option $1"; usage) 1>&2; exit 1
 esac
 shift
 shift
 done
+
+if [ -z $work_dir ]; then
+    WORKSPACE=`pwd`
+else
+    WORKSPACE=$work_dir
+fi
 
 my_full_path=`readlink -f $0`
 my_parent_dir=`dirname $my_full_path`
@@ -288,3 +304,7 @@ if [ -n "$email_to" ]; then
 else
     echo "Email not provided. Results will not be emailed."
 fi
+
+echo "================================================================="
+cat $attachments
+echo "================================================================="
